@@ -1,4 +1,5 @@
 camoufox[geoip]
+camoufox-captcha
 peewee
 python-dotenv
 pymysql

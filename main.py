@@ -1,18 +1,37 @@
-
-from camoufox.sync_api import Camoufox
 from shadow_db import Novel, Chapter
+from camoufox_captcha import solve_captcha
+from camoufox import AsyncCamoufox
+import asyncio
 
-def main():
+async def main():
     novel = Novel.get(1)
 
     url = novel.url
 
-    with Camoufox() as browser:
-        page = browser.new_page()
-        page.goto(url)
+    async with AsyncCamoufox(
+        headless=True,
+        geoip=True,
+        humanize=False,
+        i_know_what_im_doing=True,
+        config={'forceScopeAccess': True},  # add this when creating Camoufox instance
+        disable_coop=True  # add this when creating Camoufox instance
+    ) as browser:
+        page = await browser.new_page()
 
+        # navigate to a site with Cloudflare protection
+        await page.goto(url)
+
+        # solve using solve_captcha
+        success = await solve_captcha(page, captcha_type='cloudflare', challenge_type='interstitial', expected_content_selector='.content')
+        if not success:
+            return print("Failed to solve captcha challenge")
+
+        print("Successfully solved captcha challenge!")
         
-    pass
+        await page.screenshot(path='type shit.png')
+
+
+    
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

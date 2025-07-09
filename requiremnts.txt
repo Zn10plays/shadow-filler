@@ -1,0 +1,5 @@
+camoufox[geoip]
+peewee
+python-dotenv
+pymysql
+cryptography

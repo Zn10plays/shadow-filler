@@ -3,8 +3,13 @@ A tool to fill content for the shadow project
 
 ## Installation 
 ```bash
+git clone
+git submodule init 
+git submodule update --recursive --remote
+
 conda create -p ./venv python=3.13 pip
 conda activate ./venv
+
 pip install -r requiremnts.txt
 python -m camoufox fetch
 ```
@@ -13,7 +18,7 @@ python -m camoufox fetch
 python -m camoufox remove
 ```
 
-[!NOTE]  
+> [!NOTE]  
 > On a fresh installation of Linux, you may also need the following Firefox
 dependencies:
 ```bash

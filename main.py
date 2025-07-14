@@ -2,6 +2,13 @@ from shadow_db import Novel, Chapter
 from camoufox_captcha import solve_captcha
 from camoufox import AsyncCamoufox
 import asyncio
+import os
+import dotenv
+
+dotenv.load_dotenv()
+
+WEBRTC_IPV6_PROXY = os.getenv("WEBRTC_IPV6_PROXY")
+
 
 async def main():
     novel = Novel.get(1)
@@ -11,9 +18,10 @@ async def main():
     async with AsyncCamoufox(
         headless=True,
         geoip=True,
-        humanize=False,
+        humanize=True,
         i_know_what_im_doing=True,
-        config={'forceScopeAccess': True},  # add this when creating Camoufox instance
+        config={'forceScopeAccess': True,
+                'webrtc:ipv6': WEBRTC_IPV6_PROXY},  # add this when creating Camoufox instance
         disable_coop=True  # add this when creating Camoufox instance
     ) as browser:
         page = await browser.new_page()

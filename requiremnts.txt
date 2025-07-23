@@ -4,3 +4,5 @@ peewee
 python-dotenv
 pymysql
 cryptography
+playwright-captcha
+pydantic

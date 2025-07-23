@@ -1,4 +1,4 @@
-from types.novels import NovelInfo, ChapterInfo, ChapterLinks
+from utils.types.novels import NovelInfo, ChapterInfo, ChapterLinks
 from pydantic import BaseModel
 
 class Lang:
@@ -22,11 +22,11 @@ class BaseScraper:
     def can_handle(self, url: str) -> bool:
         raise NotImplementedError
 
-    def get_novel_info(self, url: str) -> NovelInfo:
+    async def get_novel_info(self, url: str) -> NovelInfo:
         raise NotImplementedError
 
-    def get_chapter_info(self, url: str) -> ChapterInfo:
+    async def get_chapter_info(self, url: str) -> ChapterInfo:
         raise NotImplementedError
-    
-    def get_chapter_links(self, url: str) -> ChapterLinks:
+
+    async def get_chapter_links(self, url: str) -> ChapterLinks:
         raise NotImplementedError

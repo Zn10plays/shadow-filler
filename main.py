@@ -2,36 +2,22 @@ from shadow_db import Novel, Chapter
 from camoufox_captcha import solve_captcha
 from camoufox import AsyncCamoufox
 import asyncio
+import time
+from scraper.manager import manager
 
 async def main():
-    novel = Novel.get(1)
-
-    url = novel.url
-
-    async with AsyncCamoufox(
-        headless=True,
-        geoip=True,
-        humanize=False,
-        i_know_what_im_doing=True,
-        config={'forceScopeAccess': True},  # add this when creating Camoufox instance
-        disable_coop=True  # add this when creating Camoufox instance
-    ) as browser:
-        page = await browser.new_page()
-
-        # navigate to a site with Cloudflare protection
-        await page.goto(url)
-
-        # solve using solve_captcha
-        success = await solve_captcha(page, captcha_type='cloudflare', challenge_type='interstitial', expected_content_selector='.content')
-        if not success:
-            return print("Failed to solve captcha challenge")
-
-        print("Successfully solved captcha challenge!")
-        
-        await page.screenshot(path='type shit.png')
-
-
     
+    # log time
+    start_time = time.time()
+
+    chapter_info = await manager.get_chapter_info('https://skydemonorder.com/projects/3801994495-return-of-the-mount-hua-sect/971-know-that-this-is-glory-kid-1')
+    
+    # print(chapter_info)
+    print(chapter_info.ref.title)
+    print(chapter_info.ref.chapter_number)
+
+    end_time = time.time()
+    print(f"Time taken: {end_time - start_time} seconds")
 
 if __name__ == "__main__":
     asyncio.run(main())

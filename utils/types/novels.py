@@ -10,7 +10,7 @@ class NovelInfo(BaseModel):
     summary: str
     total_chapters: int
     last_updated: str
-    cover_image: any = None
+    cover_image: str|None = None
 
 class ChapterRef(BaseModel):
     title: str
